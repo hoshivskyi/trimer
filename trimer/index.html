@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trimer Shop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <div class="container">
+        <form action="#" class="login-form" name="submit-to-google-sheet">
+            <h2>Замовити</h2>
+
+            <input type="text" name="Name" id="Name" autocomplete="off" placeholder="Імя" required>
+
+            <input type="tel" name="tel" id="tel" value="+380" autocomplete="off" placeholder="Номер телефону" required>
+        
+            <button type="submit">Замовити</button>
+
+            <span id="sendText"></span>
+        </form>
+    </div>
+
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxtLUXcO6M9Xr6G1rablRK6lMjJWCXgE6PMEDqLdI7kxrDBhhc_Z9j95ukbaaNX9NyF/exec'
+        const form = document.forms['submit-to-google-sheet']
+        const sendText = document.getElementById('sendText')
+      
+        form.addEventListener('submit', e => {
+          e.preventDefault()
+          fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+            .then(response => {
+                sendText.innerHTML = 'Замовлення зроблено, дякуємо :)'
+                setTimeout(function() {
+                    sendText.innerHTML =  ""
+                }, 3000)
+                form.reset();
+            })
+            .catch(error => console.error('Error!', error.message))
+        })
+      </script>
+</body>
+</html>
